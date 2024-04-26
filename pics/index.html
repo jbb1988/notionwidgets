@@ -132,10 +132,20 @@
 
             slides[index].style.display = 'flex';
             slides[index].classList.add('current');
+        }
 
-            // Ensure that the background image is loaded
-            const backgroundImage = slides[index].style.backgroundImage;
-            if (backgroundImage) {
-                const imageUrl = backgroundImage.match(/\((.*?)\)/)[1].replace(/('|")/g, '');
-                const image = new Image();
-                image.onload =
+        nextButton.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        });
+
+        prevButton.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        });
+
+        // Initialize the first slide
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
