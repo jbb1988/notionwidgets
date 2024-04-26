@@ -1,85 +1,128 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Middlesex Water Repair Project</title>
+    <title>Image Carousel</title>
+    <link href=https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #362a2b;
+            color: #e5ebf3;
+            overflow: hidden; /* Prevents scrollbar */
+        }
+
         .slider {
             position: relative;
-            width: 100%;
-            height: 400px; /* adjust the height as needed */
-            overflow: hidden;
+            width: 100%; /* Instead of 100vw to avoid horizontal scroll */
+            height: 100vh;
         }
-        
+
         .slide {
+            display: none; /* Hide all slides by default */
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%; /* adjust the height as needed */
+            height: 100%;
             background-size: cover;
             background-position: center;
-            display: none; /* hide all slides initially */
+            transition: opacity 0.4s ease-in-out;
         }
-        
+
         .slide.current {
-            display: block; /* show the current slide */
+            display: block; /* Show current slide */
+            opacity: 1;
+        }
+
+        .content {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            width: calc(100% - 100px);
+            padding: 20px;
+            background-color: rgba(229, 235, 243, 0.7); /* Slightly see-through */
+            color: #495b73;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); /* Soft shadow for readability */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .buttons button {
+            border: none;
+            background-color: #e5ebf3;
+            color: #362a2b;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 5px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #prev { left: 20px; }
+        #next { right: 20px; }
+
+        .buttons button:hover {
+            background-color: #f7f9fc;
         }
     </style>
 </head>
 <body>
     <div class="slider">
         <!-- Add more slides as necessary -->
-        <div class="slide" style="background-image: url('https://file.notion.so/f/f/f25473bb-0aa2-485d-94a0-4947a19c7e3e/aadbec8c-cea8-4795-8106-d412b2711a0c/20240228_104026.jpg?id=b08085ad-b5fd-4a28-94a2-dba8533ea74b&table=block&spaceId=f25473bb-0aa2-485d-94a0-4947a19c7e3e&expirationTimestamp=1714262400000&signature=yvOTl8vlXOoikXaCaOjru80OgY85QKbgMo5jvOolWdM&downloadName=20240228_104026.jpg');">
+        <div class="slide current" style="background-image: url(https://file.notion.so/f/f/f25473bb-0aa2-485d-94a0-4947a19c7e3e/aadbec8c-cea8-4795-8106-d412b2711a0c/20240228_104026.jpg?id=b08085ad-b5fd-4a28-94a2-dba8533ea74b&table=block&spaceId=f25473bb-0aa2-485d-94a0-4947a19c7e3e&expirationTimestamp=1714262400000&signature=yvOTl8vlXOoikXaCaOjru80OgY85QKbgMo5jvOolWdM&downloadName=20240228_104026.jpg);">
             <div class="content">
                 <h1>Slide One</h1>
                 <p>MIDDLESEX WATER - REPAIR PROJECT</p>
             </div>
         </div>
-        
-        <div class="slide" style="background-image: url('https://file.notion.so/f/f/f25473bb-0aa2-485d-94a0-4947a19c7e3e/15437ec2-cd83-411d-ba9e-1d0c292f60ad/20240229_142831.jpg?id=68453787-8574-4c6b-83c4-9076e8cce288&table=block&spaceId=f25473bb-0aa2-485d-94a0-4947a19c7e3e&expirationTimestamp=1714226400000&signature=FgPUf2uwigr5Nvv-k1jMkt5LQJ9WFEdamFLNsjexRqg&downloadName=20240229_142831.jpg');">
+        <div class="slide" style="background-image: url(https://file.notion.so/f/f/f25473bb-0aa2-485d-94a0-4947a19c7e3e/15437ec2-cd83-411d-ba9e-1d0c292f60ad/20240229_142831.jpg?id=68453787-8574-4c6b-83c4-9076e8cce288&table=block&spaceId=f25473bb-0aa2-485d-94a0-4947a19c7e3e&expirationTimestamp=1714226400000&signature=FgPUf2uwigr5Nvv-k1jMkt5LQJ9WFEdamFLNsjexRqg&downloadName=20240229_142831.jpg ');">
             <div class="content">
                 <h1>Slide Two</h1>
                 <p>MIDDLESEX WATER - REPAIR PROJECT</p>
             </div>
         </div>
-        
         <!-- ... other slides ... -->
     </div>
-    
     <div class="buttons">
         <button id="prev">Prev</button>
         <button id="next">Next</button>
     </div>
-    
     <script>
         const slides = document.querySelectorAll('.slide');
         const nextButton = document.getElementById('next');
         const prevButton = document.getElementById('prev');
         let currentSlide = 0;
-        
+
         function showSlide(index) {
             slides.forEach((slide, idx) => {
                 slide.style.display = 'none';
                 slide.classList.remove('current');
             });
-            
+
             slides[index].style.display = 'block';
             slides[index].classList.add('current');
         }
-        
+
         nextButton.addEventListener('click', () => {
             currentSlide = (currentSlide + 1) % slides.length;
             showSlide(currentSlide);
         });
-        
+
         prevButton.addEventListener('click', () => {
             currentSlide = (currentSlide - 1 + slides.length) % slides.length;
             showSlide(currentSlide);
         });
-        
+
         // Initialize the first slide
         showSlide(currentSlide);
     </script>
